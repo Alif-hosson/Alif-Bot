@@ -1,6 +1,6 @@
 module.exports = {
 config: {
-  name: "ck",
+  name: "tik",
   version: "2.0.0",
   permission: 0,
   credits: "Nayan",
