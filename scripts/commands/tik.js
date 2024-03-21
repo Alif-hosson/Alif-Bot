@@ -1,6 +1,6 @@
 module.exports = {
 config: {
-  name: "tik",
+  name: "ck",
   version: "2.0.0",
   permission: 0,
   credits: "Nayan",
@@ -29,6 +29,7 @@ start: async function({ nayan, events, args }) {
   const request = require("request");
   const res = await axios.get(`https://raw.githubusercontent.com/MR-NAYAN-404/ERROR/main/error.json`);
   var data = res.data.data;
+  const tinyurl = require("tinyurl-api");
   let error = `${res.data.error}`;
   const prompt = args.join(" ");
   if (!args[0]) return api.sendMessage("[ ! ] Input link.", threadID, messageID);
@@ -40,7 +41,7 @@ start: async function({ nayan, events, args }) {
   const res = await tikdown(`${content}`);
 console.log(res)
    var file = fs.createWriteStream(__dirname + '/cache/tik.mp4');
-   
+   const shortenedUrl = await tinyurl(res.data.video);
         const play = res.data.video
    const title = res.data.title
         const rqs = request(encodeURI(`${play}`));
@@ -53,12 +54,13 @@ console.log(res)
     setTimeout(function() {
       
       return nayan.reply({
-        body: `TITLE: ${title}`,
+        body: `URL: ${shortenedUrl}\nTITLE: ${title}`,
         attachment: fs.createReadStream(__dirname + '/cache/tik.mp4')
       }, threadID, messageID)
     }, 5000)
   })
     } catch (err) {
+   console.log(err)
     nayan.reply(`${error}`, events.threadID, events.messageID);  
    }
 }
