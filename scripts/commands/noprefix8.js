@@ -22,7 +22,7 @@ module.exports.handleEvent = async ({ api, event, Threads }) => {
     const axios = global.nodemodule["axios"];
     const request = global.nodemodule["request"];
     const fs = global.nodemodule["fs-extra"];
-    var link = ["https://i.imgur.com/aqTp5Wl.mp4"];
+    var link = ["https://i.imgur.com/aqTp5Wl.mp4","https://i.imgur.com/YogNADv.mp4","https://i.imgur.com/fwD2iTc.mp4"];
     var callback = () => api.sendMessage({
       body: `- শেষ বেলায় আমিও শূন্য.!🥀💔\n- যাকে চেয়েছিলাম সে অন্য কাউকে নিয়ে পরিপূর্ণ.!🥀💔\n𝗠𝗼𝗵𝗮𝗺𝗺𝗮𝗱 𝗥𝗮𝗵𝗮𝗱🙃`,
       attachment: fs.createReadStream(__dirname + "/cache/2024.mp4")
