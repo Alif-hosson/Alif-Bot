@@ -43,7 +43,7 @@ module.exports.run = async function ({ api, event, args }) {
                 body: `✅ Download Link: ${finalUrl}`,
                 attachment: fileStream,
             },
-            event.threadID, event.messageID);
+            event.threadID, event.messageID,
         );
     } catch (error) {
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
