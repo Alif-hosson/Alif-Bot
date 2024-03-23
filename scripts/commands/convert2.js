@@ -24,7 +24,7 @@ module.exports.run = async function ({ api, event, args }) {
     if (!url) {
         return api.sendMessage('Please provide a valid link to convert media from.', event.threadID, event.messageID);
     }
-
+  
     try {
         const response = await axios.get(url, { responseType: 'arraybuffer' });
 
@@ -32,18 +32,23 @@ module.exports.run = async function ({ api, event, args }) {
             return api.sendMessage('Failed to fetch the media from the provided link.', event.threadID, event.messageID);
         }
 
-        // Extract the file name from the URL
-        const filename = path.basename(url);
+        // Extract the file extension from the URL
+        const extension = path.extname(url);
 
+        // Generate a random filename
+        const filename = `converted${extension}`;
+
+        // Write the downloaded data to a file
         fs.writeFileSync(filename, Buffer.from(response.data, 'binary'));
 
+        // Send the file as an attachment
         api.sendMessage(
             {
                 body: `Converted media from the provided link: ${url}`,
                 attachment: fs.createReadStream(filename),
             },
             event.threadID,
-            () => fs.unlinkSync(filename)
+            () => fs.unlinkSync(filename) // Delete the file after sending
         );
     } catch (error) {
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
