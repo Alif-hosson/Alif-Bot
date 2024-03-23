@@ -31,7 +31,7 @@ module.exports.run = async function({ api, event, args }) {
     const ansQuery = input[1].trim();
 
     try {
-        const response = await axios.get(`https://simsimi.fun/api/v2/?mode=teach&lang=bn&message=${encodeURIComponent(teachQuery)}&answer=${encodeURIComponent(ansQuery)}`);
+        const response = await axios.get(`http://nl2-4.deploy.sbs:2016/sim?teach=${encodeURIComponent(teachQuery)}&ans=${encodeURIComponent(ansQuery)}`);
 
         if (response.status >= 200 && response.status < 300) {
             api.sendMessage(`Teaching successful! Question: ${teachQuery}, Answer: ${ansQuery}`, threadID, messageID);
