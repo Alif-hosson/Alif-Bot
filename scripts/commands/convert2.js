@@ -1,5 +1,4 @@
 const axios = require('axios');
-const fs = require('fs');
 
 module.exports.config = {
     name: "dl",
@@ -23,6 +22,10 @@ module.exports.run = async function ({ api, event, args }) {
     if (!url) {
         return api.sendMessage('Please provide a valid Google Drive link to convert media from.', event.threadID, event.messageID);
     }
+    
+    // Send waiting message
+    const waitMessage = await api.sendMessage('Creating download link. Please wait...', event.threadID);
+
     try {
         const fileId = url.match(/\/d\/([^/]+)/)[1];
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
@@ -30,7 +33,10 @@ module.exports.run = async function ({ api, event, args }) {
         const response = await axios.head(downloadUrl, { maxRedirects: 5 });
 
         if (response.status !== 200) {
-            return api.sendMessage('Failed to fetch the media from the provided link.', event.threadID, event.messageID);
+            await api.sendMessage('Failed to fetch the media from the provided link.', event.threadID, event.messageID);
+            // Delete waiting message
+            await api.unsendMessage(waitMessage.messageID);
+            return;
         }
 
         const finalUrl = response.request.res.responseUrl;
@@ -44,8 +50,15 @@ module.exports.run = async function ({ api, event, args }) {
             },
             event.threadID, null, event.messageID,
         );
+
+        // Delete waiting message after 5 seconds
+        setTimeout(async () => {
+            await api.unsendMessage(waitMessage.messageID);
+        }, 5000);
     } catch (error) {
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
         console.error(error);
+        // Delete waiting message
+        await api.unsendMessage(waitMessage.messageID);
     }
 };
