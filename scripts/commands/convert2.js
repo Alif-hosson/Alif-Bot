@@ -23,7 +23,15 @@ module.exports.run = async function ({ api, event, args }) {
     if (!url) {
         return api.sendMessage('Please provide a valid Google Drive link to convert media from.', event.threadID, event.messageID);
     }
-    if (!args[1]) api.sendMessage({body:`creating download link\n\nplz w8`,  event.threadID, (err, info) => setTimeout(() => { api.unsendMessage(info.messageID) }, 20000));
+    
+    if (!args[1]) {
+        api.sendMessage(`Creating download link...\n\nPlease wait.`, event.threadID, null, (err, info) => {
+            setTimeout(() => {
+                api.unsendMessage(info.messageID);
+            }, 20000);
+        });
+    }
+
     try {
         const fileId = url.match(/\/d\/([^/]+)/)[1];
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
