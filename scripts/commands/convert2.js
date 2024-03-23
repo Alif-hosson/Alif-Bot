@@ -30,9 +30,6 @@ module.exports.run = async function ({ api, event, args }) {
         // Construct the download URL
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-        
-
-        // Fetch the media content
         const response = await axios.get(downloadUrl, { responseType: 'arraybuffer' });
 
         if (response.status !== 200) {
@@ -43,11 +40,12 @@ module.exports.run = async function ({ api, event, args }) {
         const filename = `downloaded_${fileId}`;
         fs.writeFileSync(filename, Buffer.from(response.data, 'binary'));
 
-        // Send the downloaded media as an attachment
+        // Send the downloaded media as an attachment with content type specified
         api.sendMessage(
             {
                 body: `✅ Downloaded Successfully\n🔗 LINK: ${downloadUrl}`,
                 attachment: fs.createReadStream(filename),
+                type: 'video/mp4' // Specify the content type explicitly
             },
             event.threadID,
             () => fs.unlinkSync(filename) // Delete the temporary file after sending
