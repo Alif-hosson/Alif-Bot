@@ -54,7 +54,7 @@ module.exports.run = async function ({ api, event, args }) {
             event.threadID, null, event.messageID,
         );
     } catch (error) {
+        console.error('An error occurred in the run function:', error);
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
-        console.error(error);
     }
 };
