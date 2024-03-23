@@ -24,7 +24,7 @@ module.exports.run = async function ({ api, event, args }) {
     }
     
     // Send waiting message
-    const waitMessage = await api.sendMessage('Creating download link. Please wait...', event.threadID);
+    const waitMessage = await api.sendMessage('Creating download link. Please wait...', event.threadID, event.messageID);
 
     try {
         const fileId = url.match(/\/d\/([^/]+)/)[1];
