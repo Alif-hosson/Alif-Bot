@@ -39,25 +39,12 @@ module.exports.run = async function ({ api, event, args }) {
 
         const finalUrl = response.request.res.responseUrl;
 
-        // Fetch the media content from the final URL
-        const mediaResponse = await axios.get(finalUrl, { responseType: 'arraybuffer' });
-
-        if (mediaResponse.status !== 200) {
-            return api.sendMessage('Failed to download the media from the provided link.', event.threadID, event.messageID);
-        }
-
-        // Write the downloaded content to a file
-        const filename = `downloaded_${fileId}`;
-        fs.writeFileSync(filename, Buffer.from(mediaResponse.data, 'binary'));
-
-        // Send the downloaded media as an attachment
+        // Send the message with the download link
         api.sendMessage(
             {
-                body: `✅ Downloaded Successfully\n🔗 LINK: ${finalUrl}`,
-                attachment: fs.createReadStream(filename),
+                body: `✅ Download Link: ${finalUrl}`,
             },
-            event.threadID,
-            () => fs.unlinkSync(filename) // Delete the temporary file after sending
+            event.threadID
         );
     } catch (error) {
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
