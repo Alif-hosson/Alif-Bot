@@ -23,8 +23,8 @@ module.exports.run = async function ({ api, event, args }) {
         return api.sendMessage('Please provide a valid Google Drive link to convert media from.', event.threadID, event.messageID);
     }
     
-    // Send waiting message
-    const waitMessage = await api.sendMessage('Creating download link. Please wait...', event.threadID, event.messageID);
+    
+    const waitMessage = await api.sendMessage('Creating download link. Please wait...', event.threadID);
 
     try {
         const fileId = url.match(/\/d\/([^/]+)/)[1];
@@ -34,7 +34,7 @@ module.exports.run = async function ({ api, event, args }) {
 
         if (response.status !== 200) {
             await api.sendMessage('Failed to fetch the media from the provided link.', event.threadID, event.messageID);
-            // Delete waiting message
+            
             await api.unsendMessage(waitMessage.messageID);
             return;
         }
@@ -51,14 +51,14 @@ module.exports.run = async function ({ api, event, args }) {
             event.threadID, null, event.messageID,
         );
 
-        // Delete waiting message after 5 seconds
+        
         setTimeout(async () => {
             await api.unsendMessage(waitMessage.messageID);
         }, 5000);
     } catch (error) {
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
         console.error(error);
-        // Delete waiting message
+    
         await api.unsendMessage(waitMessage.messageID);
     }
 };
