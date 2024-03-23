@@ -25,12 +25,12 @@ module.exports.run = async function ({ api, event, args }) {
     }
   
     try {
-        // Extract the file ID from the provided URL
+       
         const fileId = url.match(/\/d\/([^/]+)/)[1];
-        // Construct the download URL
+
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-        // Follow redirects to capture the final URL
+        
         const response = await axios.head(downloadUrl, { maxRedirects: 5 });
 
         if (response.status !== 200) {
@@ -38,11 +38,14 @@ module.exports.run = async function ({ api, event, args }) {
         }
 
         const finalUrl = response.request.res.responseUrl;
+        
+        const rahad2 = (await axios.get(finalUrl, { responseType: 'stream' })).data;
 
-        // Send the message with the download link
+
         api.sendMessage(
             {
                 body: `✅ Download Link: ${finalUrl}`,
+                attachment: `${rahad2}`,
             },
             event.threadID
         );
