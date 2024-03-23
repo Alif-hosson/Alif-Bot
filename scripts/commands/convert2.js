@@ -23,15 +23,6 @@ module.exports.run = async function ({ api, event, args }) {
     if (!url) {
         return api.sendMessage('Please provide a valid Google Drive link to convert media from.', event.threadID, event.messageID);
     }
-    
-    if (!args[1]) {
-        api.sendMessage(`Creating download link...\n\nPlease wait.`, event.threadID, null, (err, info) => {
-            setTimeout(() => {
-                api.unsendMessage(info.messageID);
-            }, 20000);
-        });
-    }
-
     try {
         const fileId = url.match(/\/d\/([^/]+)/)[1];
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
@@ -54,7 +45,7 @@ module.exports.run = async function ({ api, event, args }) {
             event.threadID, null, event.messageID,
         );
     } catch (error) {
-        console.error('An error occurred in the run function:', error);
         api.sendMessage('An error occurred while converting the media.', event.threadID, event.messageID);
+        console.error(error);
     }
 };
