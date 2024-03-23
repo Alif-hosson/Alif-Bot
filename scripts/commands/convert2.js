@@ -30,22 +30,31 @@ module.exports.run = async function ({ api, event, args }) {
         // Construct the download URL
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
-        const response = await axios.get(downloadUrl, { responseType: 'arraybuffer' });
+        // Follow redirects to capture the final URL
+        const response = await axios.head(downloadUrl, { maxRedirects: 5 });
 
         if (response.status !== 200) {
             return api.sendMessage('Failed to fetch the media from the provided link.', event.threadID, event.messageID);
         }
 
+        const finalUrl = response.request.res.responseUrl;
+
+        // Fetch the media content from the final URL
+        const mediaResponse = await axios.get(finalUrl, { responseType: 'arraybuffer' });
+
+        if (mediaResponse.status !== 200) {
+            return api.sendMessage('Failed to download the media from the provided link.', event.threadID, event.messageID);
+        }
+
         // Write the downloaded content to a file
         const filename = `downloaded_${fileId}`;
-        fs.writeFileSync(filename, Buffer.from(response.data, 'binary'));
+        fs.writeFileSync(filename, Buffer.from(mediaResponse.data, 'binary'));
 
-        // Send the downloaded media as an attachment with content type specified
+        // Send the downloaded media as an attachment
         api.sendMessage(
             {
-                body: `✅ Downloaded Successfully\n🔗 LINK: ${downloadUrl}`,
+                body: `✅ Downloaded Successfully\n🔗 LINK: ${finalUrl}`,
                 attachment: fs.createReadStream(filename),
-                type: 'video/mp4' // Specify the content type explicitly
             },
             event.threadID,
             () => fs.unlinkSync(filename) // Delete the temporary file after sending
