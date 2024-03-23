@@ -30,6 +30,8 @@ module.exports.run = async function ({ api, event, args }) {
         // Construct the download URL
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
 
+        
+
         // Fetch the media content
         const response = await axios.get(downloadUrl, { responseType: 'arraybuffer' });
 
@@ -44,7 +46,7 @@ module.exports.run = async function ({ api, event, args }) {
         // Send the downloaded media as an attachment
         api.sendMessage(
             {
-                body: `Converted media from the provided link: ${url}`,
+                body: `✅ Downloaded Successfully\n🔗 LINK: ${downloadUrl}`,
                 attachment: fs.createReadStream(filename),
             },
             event.threadID,
