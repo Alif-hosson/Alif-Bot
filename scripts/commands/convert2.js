@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const path = require('path');
 
 module.exports.config = {
     name: "dl",
@@ -23,7 +24,7 @@ module.exports.run = async function ({ api, event, args }) {
     if (!url) {
         return api.sendMessage('Please provide a valid link to convert media from.', event.threadID, event.messageID);
     }
-  
+
     try {
         const response = await axios.get(url, { responseType: 'arraybuffer' });
 
@@ -31,10 +32,9 @@ module.exports.run = async function ({ api, event, args }) {
             return api.sendMessage('Failed to fetch the media from the provided link.', event.threadID, event.messageID);
         }
 
-        // Extract the file extension from the URL
-        const extension = url.substring(url.lastIndexOf('.'));
+        // Extract the file name from the URL
+        const filename = path.basename(url);
 
-        const filename = `converted${extension}`;
         fs.writeFileSync(filename, Buffer.from(response.data, 'binary'));
 
         api.sendMessage(
