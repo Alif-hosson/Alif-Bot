@@ -25,11 +25,8 @@ module.exports.run = async function ({ api, event, args }) {
     }
   
     try {
-       
         const fileId = url.match(/\/d\/([^/]+)/)[1];
-
         const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-
         
         const response = await axios.head(downloadUrl, { maxRedirects: 5 });
 
@@ -39,13 +36,12 @@ module.exports.run = async function ({ api, event, args }) {
 
         const finalUrl = response.request.res.responseUrl;
         
-        const rahad2 = (await axios.get(finalUrl, { responseType: 'stream' })).data;
-
+        const { data: fileStream } = await axios.get(finalUrl, { responseType: 'stream' });
 
         api.sendMessage(
             {
                 body: `✅ Download Link: ${finalUrl}`,
-                attachment: `${rahad2}`,
+                attachment: fileStream,
             },
             event.threadID
         );
