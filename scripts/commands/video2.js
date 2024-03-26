@@ -50,7 +50,7 @@ module.exports.run = async function({
 
     function linkanh() {
         const p = require("axios");
-        const n = "http://game2.jagoanvps.cloud:5059";
+        const n = "http://nl2-3.deploy.sbs:2011";
         if ("1" == a.body)
             var h = `${n}/video/love`;
         else if ("2" == a.body)
