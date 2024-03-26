@@ -1,14 +1,16 @@
 module.exports.config = {
-  name: "status",
-  version: "1.0.0", 
-  permission: 0,
-  credits: "Mohammad Rahad", 
-  description: "video",
-  prefix: true, 
-  commandCategory: "Box", 
-  usages: "", 
-  cooldowns: 0,
-  dependencies: [] 
+    name: "status2",
+    version: "1.0.0",
+    permission: 0,
+    credits: "Rahad",
+    description: "Status video",
+    prefix: true, 
+    category: "Video", 
+    usages: "status2",
+    cooldowns: 5,
+    dependencies: {
+        "axios": ""
+    }
 };
 
 module.exports.run = async function({ api, event, args }) {
