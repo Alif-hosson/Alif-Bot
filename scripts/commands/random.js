@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "random",
+  name: "randon",
 	version: "0.0.2",
 	permission: 0,
   prefix: true,
