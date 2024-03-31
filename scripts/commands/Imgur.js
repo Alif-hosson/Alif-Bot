@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const FormData = require('form-data');
 const url = require('url');
+const moment = require("moment-timezone");
 
 module.exports.config = {
     name: "imgur",
@@ -20,13 +21,12 @@ module.exports.config = {
 
 module.exports.run = async ({ api, event }) => {
     try {
-        const attachmentUrl = event.messageReply.attachments[0]?.url || event.messageReply.attachments[0];
+        const attachmentUrl = event.messageReply.attachments[0].url;
         if (!attachmentUrl) return api.sendMessage('Please reply to an image or video with /imgur', event.threadID, event.messageID);
 
-        const moment = require("moment-timezone");
-        var times = moment.tz("Asia/Dhaka").format("hh:mm:ss || D/MM/YYYY");
-        var thu = moment.tz("Asia/Dhaka").format("dddd");
-        moment.tz("Asia/Dhaka").format("dddd");
+        const momentDhaka = moment.tz("Asia/Dhaka");
+        var times = momentDhaka.format("hh:mm:ss || D/MM/YYYY");
+        var thu = momentDhaka.format("dddd");
         if (thu == "Sunday") thu = "𝚂𝚞𝚗𝚍𝚊𝚢";
         if (thu == "Monday") thu = "𝙼𝚘𝚗𝚍𝚊𝚢";
         if (thu == "Tuesday") thu = "𝚃𝚞𝚎𝚜𝚍𝚊𝚢";
@@ -39,7 +39,7 @@ module.exports.run = async ({ api, event }) => {
         let threadSetting = global.data.threadData.get(threadID) || {};
         let prefix = threadSetting.PREFIX || PREFIX;
         const timeStart = Date.now();
-      
+
         const links = [
             "https://i.imgur.com/Jm8GFpy.jpeg",
             "https://i.imgur.com/lp2Lmcy.jpeg",
@@ -60,7 +60,7 @@ module.exports.run = async ({ api, event }) => {
             "https://i.imgur.com/bLMtfeD.jpeg",
             "https://i.imgur.com/QRtsGYt.jpeg"
         ];
-        
+
         const randomLink = links[Math.floor(Math.random() * links.length)];
         const attachment = (await axios.get(randomLink, { responseType: 'arraybuffer' })).data;
 
@@ -93,7 +93,7 @@ async function download(url) {
             method: 'GET',
             responseType: 'stream'
         }).then(response => {
-            const parsedUrl = new URL(url);
+            const parsedUrl = url.parse(url);
             const ext = parsedUrl.pathname.split('.').pop().toLowerCase();
             path = `./${Date.now()}.${ext}`;
             response.data.pipe(fs.createWriteStream(path));
@@ -108,25 +108,4 @@ async function download(url) {
     });
 }
 
-async function uploadToImgur(path) {
-    try {
-        const formData = new FormData();
-        formData.append('image', fs.createReadStream(path));
-
-        console.log('Uploading to Imgur...');
-
-        const uploadResponse = await axios.post('https://api.imgur.com/3/upload', formData, {
-            headers: {
-                ...formData.getHeaders(),
-                Authorization: `Client-ID c76eb7edd1459f3` 
-            }
-        });
-
-        console.log('Upload response:', uploadResponse.data);
-
-        return uploadResponse.data.data.link;
-    } catch (error) {
-        console.error('Imgur upload error:', error.response?.data || error.message);
-        throw new Error('An error occurred while uploading to Imgur.');
-    }
-}
+async function uploadToImgur
