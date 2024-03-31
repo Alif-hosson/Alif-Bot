@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "cat",
+  name: "bin",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "Nayan",
