@@ -1,12 +1,11 @@
 module.exports.config = {
-	name: "uns",
-	version: "1.0.5",
-	permission: 2,
-	credits: "Nayan",
-	prefix: true,
-	description: "ban or unblock users",
+	name: "uid2",
+	version: "1.0.0",
+	permission: 0,
+	credits: "ryuko",
+	prefix: false,
+	description: "get user id.",
 	category: "without prefix",
-	usages: " ",
 	cooldowns: 5
 };
 
