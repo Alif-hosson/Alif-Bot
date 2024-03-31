@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "bing2",
+  name: "cat",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "Nayan",
