@@ -31,10 +31,10 @@ module.exports = {
     if (!args[1]) nayan.reply(lang("wait"), events.threadID, (err, info) => setTimeout(() => { nayan.unsendMessage(info.messageID) }, 20000));
 
     try {
-      const res = await axios.get(`http://nl2-4.deploy.sbs:2016/fbdl2?url=${np}&apikey=xnx`);
+      const res = await axios.get(`http://nl2-4.deploy.sbs:2016/fbdl?url=${np}&apikey=xnx`);
       console.log(res);
       var msg = [];
-      let img1 = `${res.data.download[0].url}`;
+      let img1 = `${res.data.hd}`;
 
       let imgs1 = (await axios.get(`${img1}`, {
         responseType: 'arraybuffer'
