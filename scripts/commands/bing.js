@@ -5,7 +5,7 @@ module.exports.config = {
   credits: "Nayan",
   description: "",
   commandCategory: "Image",
-  usages: "bing cow",
+  usages: "alif mow",
   cooldowns: 5
 };
 
