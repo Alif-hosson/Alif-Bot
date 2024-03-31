@@ -1,11 +1,11 @@
 module.exports.config = {
-  name: "bin",
+  name: "bing",
   version: "1.0.0",
   hasPermssion: 0,
   credits: "Nayan",
   description: "",
   commandCategory: "Image",
-  usages: "bing cat",
+  usages: "bing cow",
   cooldowns: 5
 };
 
