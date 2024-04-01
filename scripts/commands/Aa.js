@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-module.exports.config = {
+module.exports.config = { 
     name: "call",
     version: "1.0.0",
     permission: 2,
