@@ -22,12 +22,13 @@ const link = [
   "https://i.imgur.com/BQOw4V2.mp4",
   "https://i.imgur.com/Is9sLgx.mp4",
   "https://i.imgur.com/FkB05ez.mp4",
-  "https://i.imgur.com/ZHFe1XF.mp4"
-  "https://i.imgur.com/8dLoUPH.mp4"
-  "https://i.imgur.com/V0Jlikk.mp4"
-  "https://i.imgur.com/bacE6mL.mp4"
-  "https://i.imgur.com/lKLkIxx.mp4"
-  "https://i.imgur.com/1jTxC8L.mp4"
+  "https://i.imgur.com/ZHFe1XF.mp4",
+  "https://i.imgur.com/8dLoUPH.mp4",
+  "https://i.imgur.com/V0Jlikk.mp4",
+  "https://i.imgur.com/bacE6mL.mp4",
+  "https://i.imgur.com/lKLkIxx.mp4",
+  "https://i.imgur.com/1jTxC8L.mp4",
+  
 ];
 
 module.exports.config = {
