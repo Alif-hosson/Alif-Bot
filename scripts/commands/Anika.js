@@ -8,29 +8,29 @@ module.exports.config = {
     description: "Talk to Ana",
     prefix: true,
     category: "sim simi fun",
-    usages: "mini",
+    usages: "Anika",
     cooldowns: 5,
     dependencies: {
-    "request": "",
-    "fs-extra": "",
-    "axios": ""
-  }
+        "request": "",
+        "fs-extra": "",
+        "axios": ""
+    }
 };
 
 module.exports.handleEvent = async ({ api, event, Threads }) => {
     const content = event.body ? event.body : '';
     const body = content.toLowerCase();
-    if (body.startsWith("Anika")) {
+    if (body.startsWith("anika")) {
         const args = event.body.split(/\s+/);
         args.shift();
 
-        let { messageID, threadID, senderID, body } = event;
+        let { messageID, threadID, senderID } = event;
         let tid = threadID,
             mid = messageID;
-        const content = encodeURIComponent(args.join(" "));
+        const message = encodeURIComponent(args.join(" "));
         if (!args[0]) return api.sendMessage(" hm bolo bby😸 ...", tid, mid);
         try {
-            const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=bn&message=${content}&filter=true`);
+            const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=bn&message=${message}&filter=true`);
             const respond = res.data.success;
             if (res.data.error) {
                 api.sendMessage(`Error: ${res.data.error}`, tid, (error, info) => {
