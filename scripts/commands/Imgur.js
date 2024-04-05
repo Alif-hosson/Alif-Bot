@@ -40,35 +40,9 @@ module.exports.run = async ({ api, event }) => {
         let prefix = threadSetting.PREFIX || PREFIX;
         const timeStart = Date.now();
       
-        const links = [
-            "https://i.imgur.com/Jm8GFpy.jpeg",
-            "https://i.imgur.com/lp2Lmcy.jpeg",
-            "https://i.imgur.com/AnCVD2z.jpeg",
-            "https://i.imgur.com/Nq89l5D.jpeg",
-            "https://i.imgur.com/XAjyUXX.jpeg",
-            "https://i.imgur.com/2EmEdcM.jpeg",
-            "https://i.imgur.com/5FRxF87.jpeg",
-            "https://i.imgur.com/mL8daC8.jpeg",
-            "https://i.imgur.com/UUKzEhx.jpeg",
-            "https://i.imgur.com/K8Eft54.jpeg",
-            "https://i.imgur.com/O6sZdo1.jpeg",
-            "https://i.imgur.com/rQa5omU.jpeg",
-            "https://i.imgur.com/DpY4run.jpeg",
-            "https://i.imgur.com/ESrHa8w.jpeg",
-            "https://i.imgur.com/gcyTZOW.jpeg",
-            "https://i.imgur.com/nUtBpq8.jpeg",
-            "https://i.imgur.com/bLMtfeD.jpeg",
-            "https://i.imgur.com/QRtsGYt.jpeg"
-        ];
-        
-        const randomLink = links[Math.floor(Math.random() * links.length)];
-        const attachment = (await axios.get(randomLink, { responseType: 'arraybuffer' })).data;
+        const attachment = (await axios.get(attachmentUrl, { responseType: 'arraybuffer' })).data;
 
-        const { path } = await download(attachmentUrl);
-
-        console.log('Attachment downloaded:', path);
-
-        const imgurLink = await uploadToImgur(path);
+        const imgurLink = await uploadToImgur(attachment);
 
         console.log('Imgur link:', imgurLink);
 
@@ -78,40 +52,17 @@ module.exports.run = async ({ api, event }) => {
         ▱▱▱▱▱▱▱▱▱▱▱▱▱\n
         『  ${thu} || ${times} 』`;
 
-        return api.sendMessage({ body: replyMessage, attachment: attachment }, event.threadID, event.messageID);
+        return api.sendMessage({ body: replyMessage }, event.threadID, event.messageID);
     } catch (error) {
         console.error('Error:', error.response?.data || error.message);
         return api.sendMessage('An error occurred while processing the attachment.', event.threadID, event.messageID);
     }
 };
 
-async function download(url) {
-    return new Promise((resolve, reject) => {
-        let path;
-        axios({
-            url,
-            method: 'GET',
-            responseType: 'stream'
-        }).then(response => {
-            const parsedUrl = new URL(url);
-            const ext = parsedUrl.pathname.split('.').pop().toLowerCase();
-            path = `./${Date.now()}.${ext}`;
-            response.data.pipe(fs.createWriteStream(path));
-            response.data.on('end', () => {
-                console.log('Download completed:', path);
-                resolve({ path });
-            });
-        }).catch(error => {
-            console.error('Download error:', error);
-            reject(error);
-        });
-    });
-}
-
-async function uploadToImgur(path) {
+async function uploadToImgur(attachment) {
     try {
         const formData = new FormData();
-        formData.append('image', fs.createReadStream(path));
+        formData.append('image', attachment);
 
         console.log('Uploading to Imgur...');
 
