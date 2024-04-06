@@ -3,7 +3,7 @@ module.exports.config = {
   version: "2.0.0",
   permission: 2,
   credits: "Nayan",
-  description: "all groups",
+  description: "all groups", 
   prefix: true,
   category: "admin",
   usages: "groups",
