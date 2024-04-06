@@ -28,7 +28,7 @@ start: async function({ nayan, events, args, lang}) {
   const n = apis.data.api2
     if(!prompt) return nayan.reply(lang('missing'), events.threadID, events.messageID)
 
-  const rndm = ['1aMDh8KssNxOR8ig9UxOMc5FTTpihcJ3Dxcpgd4CZwlDH5_zHf2kw4d9Oqf3l4PcRXXtTfnGSihZasvxUHjxACtMitrB61JdX6Su0VpQmk2r-FS1aeEvDuKt7slpeavNxyti3psi6keXS1LoeLG2SCNoYwBaZ3adCM6JnA1NGh0vHU7zSzRepufUr4pzTdYN9SI9Pvh8MCzxZRFADDfavHQ10g__1waaF6O-FSwL5bKOItl9JYRdvwLOmy0X9rD5oRO8eUDjwHDuH1r903oEMS0bGsEcAAPhHRq0oO9-9LwHgG9TFiMpFvqA5y1oIfP8_E9BsHe3lQhkDT_lYiRDxTl5ozogRCthJbpXA_NVxDRLjom02wYkO-8qNLJkz2fAmuHxy0ueAvVzmnEV9Vc6VXu_-f4OFdYpO3mtvkz_h-ZfIA185GgSdC1WSAKzuZzTVJMt9w4DSvIIn5QoY-HnVgPrkLqxQTl6MXH6GRLqITrKi1JJWABzXrQ-3Cz5tkdBGgQDAoJR4FUqTMk6gwL6sR8IwNWWnWq_f3A6qLXvng6DwsjWcMpog7aoDQ-wpPuJoTkTJ8TGxPL408P6ugF3kx2CCjoQn3WIOWEgOQ8bhgDd2FXPXdC0hsdah9iOBeVEUShBg'] // input your cookie hare
+  const rndm = ['1VD95z05ScFZXe3oXkS83aEsZOOFP0n96A1seqIJZn3dGtCR18wV3rVe8QO_KlDVotA-EOJeRMg0t56gjbcZnfc4ufo51k1jlPRZ9wdeYYNTgpWP5fyziq7SUGdvbALI0MWQ2EksCbWfWIhoCT3QwW2XrG9n0EOvcy69Sf2X1B-BGiIXLgbqL0ro0DXJNhEUGVRIXRoU08WRKuQbvUFYhMg','1HLeQjPG434srEEz8GLU-6w-2K355LRuokMZA9ovE4L0BwLiGgJCmJ33OLoCqVvjWSj8Y0ZCYAdTDgJXZVf7e1x6o4f02gipc-LijaMt0Lm2QxrlpbOcx1FFcXUANFYSQuYO64AQ458CO5mk66nC0-XQm67kqx_7iKVp4CfmHTu88gTIoV_9GhYQk_ooHC6vxvigaN1fv0iy4FgoivOLjKg','SRCHHPGUSR=SRCHLANG=en&CW=360&CH=636&SCW=360&SCH=636&BRW=MM&BRH=MM&DPR=2.0&UTC=360&HV=1711912168&PRVCW=360&PRVCH=636&DM=1'] // input your cookie hare
 
   var cookie = rndm[Math.floor(Math.random() * rndm.length)];
 
